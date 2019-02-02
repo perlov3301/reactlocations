@@ -3,25 +3,19 @@ import React, { Component } from 'react';
 import './App.css';
 // import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { fetchlocations1 } from './actions/loactions';
 
+import store from './store';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { StyleSheet, Text, View,
   ActivityIndicator} from 'react-native';
+import getos from './components/getos';
 import Categories1 from './components/categories1';
 import Categornative from './pages/categornative';
 import Choosecatedit from './pages/choosecatedit';
 import Chooselocedit from './pages/chooselocedit';
-import DB1 from './db1';
-import DB2 from './db2';
+import Chooselocremove from './pages/chooselocremove';
 import Editcat from './pages/editcat';
 import Editpage from './pages/editreact';
-import Chooselocremove from './pages/chooselocremove';
-// import Footer2 from './components/footer2';
-import Footer3 from './components/footer3';
-import getos from './components/getos';
 import Hellonative from './components/hellonative';
 // import Categornativemini from './pages/categornativemini';
 import Indexpage from './pages/index';
@@ -29,20 +23,21 @@ import Navbar2 from './components/navbar2';
 // import Navbar3 from './components/navbar3';
 import Newcategory from './pages/newcategory';
 import Newlocation from './pages/newlocation';
-import Removepage2 from './pages/remove2';
 import Sectionlist12 from './pages/sectionlist12';
 import Showpage from './pages/show';
+import Removepage2 from './pages/remove2';
 // import Showcategory1 from './pages/showcategory1';
 import Showcategory2 from './pages/showcategory2';
- import store from './store';
+// import Footer2 from './components/footer2';
+import Footer3 from './components/footer3';
+import DB1 from './db1';
+import DB2 from './db2';
 
- // import { createStore, applyMiddleware } from 'redux';
- // const store = createStore(() => [], {},  applyMiddleware);
 const stylesnative = StyleSheet.create({
   box: { 
     width: '80%',
     padding: '0.35em', 
-    marginTop: '5.26em',
+    marginTop: '4.5em',
     marginBottom: '0.26em',
     backgroundColor: 'rgba(100, 116, 80, 0.7)',
     borderRadius: '0.26em' },
@@ -62,33 +57,26 @@ class App extends Component {
   state =  {
     dbapp: new DB1(),
     dbcat: new DB2(),
-    // notes: {},
+    notes: {},
     categories: {},
     catnotes: {},
     loading: true,
     aos: ''
   }
   async componentDidMount() {
-    let myos = getos();
-    console.log('app;did;os=', myos);
+    this.state.aos = getos();
+    console.log('app;did;os=', this.state.aos, 
+      'process.env:', process.env);
     const notes = await this.state.dbapp.getallnotes();
-    // // console.log('app;did;notes.keys=', Object.keys(notes));
-    // console.log('app;did;notes=', notes);
-     // this.props.fetchlocations1();
+    // console.log('app;did;notes.keys=', Object.keys(notes));
+    console.log('app;did;notes=', notes);
     const categories = await this.state.dbcat.getcategories();
   this.setState({
-     notes,
+    notes,
     categories,
-    loading: false,
-    aos: myos
+    loading: false
 });
 }
-
-// componentWillReceiveProps(nextProps) {
-//   if(nextProps.newpost) {
-//     this.props.posts.unshift(nextProps.newpost);
-//   }
-// }
  
   handlesave = async (note) => {
     let { id } = await this.state.dbapp.createnote(note);
@@ -262,7 +250,10 @@ const newCar = Object.keys(car)
       <Provider store={store}>
         <BrowserRouter>
           <div className="App">
-            React {reactvers} on {this.state.aos}
+            React {reactvers} on  {this.state.aos}
+            <div className="navbardiv">
+              <Navbar2 />
+            </div>
             
             <View style={stylesnative.box}>
               <Text style={stylesnative.text}>React Native Insert</Text>
@@ -270,9 +261,6 @@ const newCar = Object.keys(car)
             { this.rendercontent() }
             
             <Hellonative />
-            <div className="navbardiv">
-              <Navbar2 />
-            </div>
             <Footer3 />
           </div>
       </BrowserRouter>
@@ -282,18 +270,9 @@ const newCar = Object.keys(car)
     );
   }
 }
-App.propTypes = {
-  store: PropTypes.object.isRequired,
-}
-// Posts.propTypes = {
-//   fetchposts: PropTypes.func.isRequired,
-//   posts: PropTypes.array.isRequired,
-//   newpost: PropTypes.object
+// App.propTypes = {
+//   store: PropTypes.object.isRequired,
 // }
- export default App;
-// const mapstatetostate = state => ({
-//   notes:   state.rootposts.items,
-// });
- // export default connect(mapstatetostate, { fetchlocations1 })(App);
+export default App;
 //  {/* <Editcat {...props} onsaveedit={this.handlesaveeditcat}
 //               notecat={this.state.categories[props.match.params.id]}/> */}
