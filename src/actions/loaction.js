@@ -14,7 +14,7 @@ export function fetchlocations ()  {
 };
 // Es6 syntax
 export const fetchlocations1 =  () => async (dispatch) => {
-    console.log('loactions.js; fetching');
+    console.log('loactionjs; fetchlocation1');
     const notes = await dbact.getallnotes();
         dispatch({
             type: FETCH_LOCS,

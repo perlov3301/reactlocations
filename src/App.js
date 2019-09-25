@@ -5,7 +5,7 @@ import './App.css';
 import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchlocations1 } from './actions/loactions';
+import { fetchlocations1 } from './actions/loaction';
 
 import { BrowserRouter, Route } from 'react-router-dom';
 import { StyleSheet, Text, View,
@@ -62,7 +62,7 @@ class App extends Component {
   state =  {
     dbapp: new DB1(),
     dbcat: new DB2(),
-    // notes: {},
+    notes: {},
     categories: {},
     catnotes: {},
     loading: true,
@@ -71,13 +71,13 @@ class App extends Component {
   async componentDidMount() {
     let myos = getos();
     console.log('app;did;os=', myos);
-    const notes = await this.state.dbapp.getallnotes();
-    // // console.log('app;did;notes.keys=', Object.keys(notes));
-    // console.log('app;did;notes=', notes);
+    const mynotes = await this.state.dbapp.getallnotes();
+    // // console.log('app;did;notes.keys=', Object.keys(mynotes));
+    // console.log('app;did;notes=', mynotes);
      // this.props.fetchlocations1();
     const categories = await this.state.dbcat.getcategories();
   this.setState({
-     notes,
+    notes: mynotes,
     categories,
     loading: false,
     aos: myos
@@ -290,6 +290,12 @@ App.propTypes = {
 //   posts: PropTypes.array.isRequired,
 //   newpost: PropTypes.object
 // }
+// posts come from postreducer to rootreducer(index) to here
+// const mapstatetoprops = state => ({
+//   posts:   state.rootposts.items,
+//   newpost: state.rootposts.item1
+// });
+
  export default App;
 // const mapstatetostate = state => ({
 //   notes:   state.rootposts.items,

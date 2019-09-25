@@ -13,6 +13,7 @@ export default function (state = initialstate, action1) {
           return {
               ...state,
               items: action1.payload // myload
+     // from loaction data within fetch
           };
          //  break;
       }
